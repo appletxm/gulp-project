@@ -1,0 +1,28 @@
+{
+	"code":1,
+	"data":{
+		"totalCount":1,
+		"list":[
+			{
+				"id":1,
+				"user_name":"Rainyin",
+				"user_registered":"2016-01-11T16:00:00.000Z",
+				"user_identity_id":1,
+				"user_real_name":"谢明楷",
+				"user_nick_name":"大红袍",
+				"user_job_number":1
+			},
+
+			{
+				"id":2,
+				"user_name":"Rainyin2",
+				"user_registered":"2016-01-11T16:00:00.000Z",
+				"user_identity_id":2,
+				"user_real_name":"谢明楷2",
+				"user_nick_name":"大红袍2",
+				"user_job_number":2
+			}
+		]
+	},
+"msg":"success"
+}

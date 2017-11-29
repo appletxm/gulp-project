@@ -1,0 +1,51 @@
+{
+	"code": 200,
+	"msg": "Success",
+	"records": 3,
+	"total": 2,
+	"page": 1,
+	"rows":[{
+		"return":[
+			{
+				"return_goods_name": "金施尔康 多维元素片 30片",
+				"return_goods_code": "npm23",
+				"return_goods_no": "324234",
+				"return_number": "22223",
+				"return_standard_amount": "￥80.00",
+				"return_real_amount": "￥39.00",
+				"return_refund_status": "退款中",
+				"return_remark": "xxx"
+			},
+			{
+				"return_goods_name": "89ohpioudsf",
+				"return_goods_code": "lihlihhlij",
+				"return_goods_no": "324234",
+				"return_number": "22223",
+				"return_standard_amount": "￥30.00",
+				"return_real_amount": "￥22.00",
+				"return_refund_status": "退款完成",
+				"return_remark": "xxx"
+			}	
+		],
+		"deal":[
+			{
+				"deal_goods_name": "金施尔康",
+				"deal_goods_code": "j89g",
+				"deal_goods_no": "324234",
+				"deal_number": "22223",
+				"deal_standard_amount": "￥120.00",
+				"deal_real_amount": "￥100.00",
+				"deal_remark": "xxx"
+			}	,
+			{
+				"deal_goods_name": "xlhlhxx",
+				"deal_goods_code": "98gghli",
+				"deal_goods_no": "324234",
+				"deal_number": "22223",
+				"deal_standard_amount": "￥80.00",
+				"deal_real_amount": "￥80.00",
+				"deal_remark": "xxx"
+			}		
+		]
+	}]
+}

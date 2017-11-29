@@ -1,0 +1,41 @@
+{
+	"0": {
+		"goods_code": "xxx",
+		"goods_name": "xxx",
+		"deal_number": "222",
+		"category": "xx",
+		"brands": "xxx",
+		"price": "333",
+		"attribution": "xxx",
+		"goods_status": "上架",
+		"is_prescription": "是",
+		"stock": "100",
+		"goods_number": "11111"
+	},
+	"1": {
+		"goods_code": "xxx",
+		"goods_name": "xxx",
+		"deal_number": "222",
+		"category": "xx",
+		"brands": "xxx",
+		"price": "333",
+		"attribution": "xxx",
+		"goods_status": "上架",
+		"is_prescription": "是",
+		"stock": "100",
+		"goods_number": "11111"
+	},
+	"2": {
+		"goods_code": "xxx",
+		"goods_name": "xxx",
+		"deal_number": "222",
+		"category": "xx",
+		"brands": "xxx",
+		"price": "333",
+		"attribution": "xxx",
+		"goods_status": "上架",
+		"is_prescription": "是",
+		"stock": "100",
+		"goods_number": "11111"
+	}
+}

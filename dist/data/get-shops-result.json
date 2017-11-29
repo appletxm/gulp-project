@@ -1,0 +1,14 @@
+{
+	"code": 200,
+	"msg": "success",
+	"data": [
+		{
+			"shop_id": 1,
+			"shop_name": "店铺1"
+		},
+		{
+			"shop_id": 2,
+			"shop_name": "店铺2"
+		}
+	]
+}

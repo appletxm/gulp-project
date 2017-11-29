@@ -1,0 +1,79 @@
+'use strict';
+
+var orderOperationsConfig = {
+	'do-lock': {
+		id: 'do-lock',
+		label: '锁定',
+		event: 'do-lock',
+		canDo: function(no, isLocked, isMeLocked){
+			var canDo = false;
+
+			no = parseInt(no, 10);
+
+			if(isLocked !== 'true'){
+				canDo = true;
+			}
+
+			return canDo;
+		},
+		url: 'ofc/api/order/lock/'
+	},
+
+	'do-unlock':{
+		id: 'do-unlock',
+		label: '解锁',
+		event: 'do-unlock',
+		canDo: function(no, isLocked, isMeLocked){
+			var canDo = false;
+			no = parseInt(no, 10);
+
+			if(isLocked === 'true' && isMeLocked){
+				canDo = true;
+			}
+
+			return canDo;
+		},
+		url: 'ofc/api/order/lock/'
+	},
+
+	'do-resend': {
+		id: 'do-resend',
+		label: '重新下发',
+		event: 'do-resend',
+		canDo: function(no){
+			var canDo = false;
+			no = parseInt(no, 10);
+
+			/*if(no > 900){
+				canDo = true;
+			}
+
+			return canDo;*/
+
+			return true;
+		},
+		url: 'ofc/api/order/order/redeliver/'
+	},
+
+	'do-cancel':{
+		id: 'do-cancel',
+		label: '取消',
+		event: 'do-cancel',
+		canDo: function(){
+			return true;
+		},
+		url: 'ofc/api/order/cancel/'
+	},
+
+	'do-refresh': {
+		id: 'do-refresh',
+		label: '刷新',
+		event: 'do-refresh',
+		canDo: function(){
+			return true;
+		},
+		url: ''
+	}
+};
+
+module.exports = orderOperationsConfig;

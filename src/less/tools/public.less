@@ -1,0 +1,32 @@
+@baseBlue: #2a7dbf;
+@baseBlueLight: #4591cf;
+
+
+//分页相关
+@pager-border-color: #c8d1da;
+@pager-background-color: #ffffff;
+@pager-font-color: #333333;
+@pager-border-radius: 0;
+
+@pager-border-color-hover: #4591cf;
+@pager-background-color-hover: #fffeff;
+@pager-font-color-hover: #4591cf;
+
+@pager-border-color-active: #4591cf;
+@pager-background-color-active: #4591cf;
+@pager-font-color-active: #fffeff;
+
+@pager-border-color-cant: #e2e2e2;
+@pager-background-color-cant: #ffffff;
+@pager-font-color-cant: #e2e2e2;
+
+
+//截取文本(仅针对单行)
+.text-single-line-ellipsis(@height, @line-height, @width: auto){
+    width: @width;
+    height: @height;
+    line-height: @line-height;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

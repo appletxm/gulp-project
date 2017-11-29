@@ -1,0 +1,60 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "pid": 0,
+            "href": "index.html",
+            "name": "网站首页"
+        },{
+            "id": 2,
+            "pid": 3,
+            "href": "index.html",
+            "name": "客服新建单"
+        },{
+            "id": 3,
+            "pid": 0,
+            "href": "templates/order-manage.html",
+            "name": "订单管理"
+        },{
+            "id": 4,
+            "pid": 2,
+            "href": "index.html",
+            "name": "待客审"
+        },{
+            "id": 5,
+            "pid": 0,
+            "href": "",
+            "name": "客服工单"
+        },{
+            "id": 6,
+            "pid": 0,
+            "href": "",
+            "name": "仓库基础数据"
+        },{
+            "id": 7,
+            "pid": 3,
+            "href": "index.html",
+            "name": "未发货"
+        },{
+            "id": 8,
+            "pid": 3,
+            "href": "index.html",
+            "name": "已发货"
+        },{
+            "id": 9,
+            "pid": 5,
+            "href": "index.html",
+            "name": "我的工单"
+        },{
+            "id": 10,
+            "pid": 6,
+            "href": "index.html",
+            "name": "我的仓库"
+        },{
+            "id": 11,
+            "pid": 2,
+            "href": "http://www.baidu.com",
+            "name": "待客审22"
+        }
+    ]
+}

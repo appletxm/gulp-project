@@ -1,0 +1,182 @@
+{
+	"msg": "ok",
+	"code": 200,
+	"data":{
+		"order_info": {
+            "user_remark" : "买家留言",
+            "shop_name" : "店铺明长城",
+            "wx_nickname" : "微信账号",
+            "username" : "下单用户",
+            "user_account" : "下单账号",
+            "plat_name" : "平台名称",
+            "source_order" : "销售平台单号",
+            "order_status" : "订单状态",
+            "order_time" : "2015-12-18T00:11:23Z",
+            "paid_amount" : "已支付金额",
+            "logist_company" : "物流公司",
+            "logist_detail" : "物流详情",
+            "order_type" : "订单类型",
+            "payment_type" : "在线支付",
+            "order_entrance" : "订单来源",
+            "vender_remark" : " 卖家留言eeeeeeeeeeeee",
+            "order_finish_time" : "2015-12-21T00:11:23Z",
+            "waybill_num" : "运单号",
+            "order_id" : "订单编号",
+            "payment_method" : "现金"
+		},
+
+		"order_goods" : [
+			{
+                "discount" : "9.5",
+                "shipment_batch_num" : "201601221000",
+                "production_date" : "2012-12-12",
+                "goods_spec" : "6盒装",
+                "warehouse_status" : "有库存",
+                "total_money" : 50.0,
+                "is_rx" : "OTC",
+                "order_quantity" : "6",
+                "goods_remark" : "Plz & Safe",
+                "expiry_date" : "2017-12-10",
+                "send_num" : "6",
+                "sku_id" : "20160121890124",
+                "goods_name" : "立方立清 丹皮酚软膏 20g"
+            },
+            {
+                "discount" : "折扣",
+                "shipment_batch_num" : "实际发货批号",
+                "production_date" : "生产日期",
+                "goods_spec" : "商品规格",
+                "warehouse_status" : "库存状态",
+                "total_money" : 20.00,
+                "is_rx" : "是否处方药",
+                "order_quantity" : "2",
+                "goods_remark" : "商品备注",
+                "expiry_date" : "有效期",
+                "send_num" : "实发数量",
+                "sku_id" : "商品SKU",
+                "goods_name" : "商品名称"
+			},
+			{
+                "discount" : "折扣",
+                "shipment_batch_num" : "实际发货批号",
+                "production_date" : "生产日期",
+                "goods_spec" : "商品规格",
+                "warehouse_status" : "库存状态",
+                "total_money" : 100.00,
+                "is_rx" : "是否处方药",
+                "order_quantity" : "10",
+                "goods_remark" : "商品备注",
+                "expiry_date" : "有效期",
+                "send_num" : "实发数量",
+                "goods_sku" : "商品SKU",
+                "goods_name" : "商品名称"
+			}
+		],
+
+		"order_consignee": {
+            "consignee_mobile" : "收货人手机",
+            "address" : "详细地址",
+            "consignee_name" : "收货人姓名",
+            "zip_code" : "邮政编码",
+            "province_name": "省份",
+            "city_name": "城市",
+            "district_name": "城区"
+		},
+
+		"order_finance": {
+            "total_savings" : "应收优惠",
+            "unpaid_amount" : "20",
+            "delivery_amount" : "10",
+            "order_total" : "100",
+            "cashier" : "出纳人员",
+            "sys_count_shipment" : "8",
+            "goods_amount" : "200",
+            "paid_amount" : "64",
+            "paid_savings" : "支付优惠",
+            "cs_coupon":"10",
+            "points":"100",
+            "cash_coupon":"5",
+            "gift_coupon":"1",
+            "order_point":"-50"
+		},
+
+		"order_invoice": [
+            {
+                "being_deleted_invoice" : "0",
+                "actual_invoice_money" : "实际发票金额",
+                "actual_invoice_content" : "发票内容",
+                "invoice_id" : "发票ID",
+                "invoice_content" : [{
+                    "content": "口服液",
+                    "unit": "瓶",
+                    "quantity": "1",
+                    "price": "29"
+                }, {
+                    "content": "胡椒",
+                    "unit": "瓶",
+                    "quantity": "1",
+                    "price": "9"
+                }],
+                "invoice_title" : "发票抬头",
+                "status" : "发票状态",
+                "actual_invoice_type" : "实际发票类型",
+                "invoice_money" : "发票金额",
+                "remark" : "备注",
+                "invoice_type" : "发票类型",
+                "invoice_date" : "发票开具日期"
+            },
+			{
+                "being_deleted_invoice" : "0",
+                "actual_invoice_money" : "实际发票金额",
+                "actual_invoice_content" : "发票内容",
+                "invoice_id" : "发票ID",
+                "invoice_content" : [{
+                    "content": "口服颗粒",
+                    "unit": "包",
+                    "quantity": "1",
+                    "price": "12.99"
+                }, {
+                    "content": "弥补",
+                    "unit": "瓶",
+                    "quantity": "1",
+                    "price": "100"
+                }],
+                "invoice_title" : "发票抬头",
+                "status" : "发票状态",
+                "actual_invoice_type" : "实际发票类型",
+                "invoice_money" : "",
+                "remark" : "备注",
+                "invoice_type" : "发票类型",
+                "invoice_date" : "发票开具日期"
+			},
+            {
+                "being_deleted_invoice" : "0",
+                "actual_invoice_money" : "实际发票金额3",
+                "actual_invoice_content" : "发票内容3",
+                "invoice_id" : "发票ID",
+                "invoice_content" : "发票内容3",
+                "invoice_title" : "发票抬头3",
+                "status" : "发票状态3",
+                "actual_invoice_type" : "实际发票类型3",
+                "invoice_money" : "0",
+                "remark" : "备注3",
+                "invoice_type" : "发票类型3",
+                "invoice_date" : "发票开具日期3"
+            }
+		],
+
+		"order_stock": {
+            "send_num": "实发货件数",
+            "logist_company" : "实际出库物流公司",
+            "stock_associate_user": "发货交接人",
+            "arrive_time" : "到货时间",
+            "actual_waybill_num" : "实际物流单号",
+            "out_stock_date" : "发货时间",
+            "stockout_user" : "打单员",
+            "stockout_time" : "打单时间",
+            "review_package_user" : "内复核扫描员",
+            "review_package_time" : "内复核扫描时间"
+		}
+
+	}
+}

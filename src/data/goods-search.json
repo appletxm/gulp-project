@@ -1,0 +1,54 @@
+{
+    "code": "200",
+    "msg": "Success",
+    "records": 2,
+    "total": 10,
+    "page": 1,
+    "data":
+    [
+        {
+            "id":"1",
+            "goods_sku_id":"20160121890124",
+            "goods_name": "康裕 辛芩颗粒 浙江 20g*8袋",
+            "goods_cate": "日常家居",
+            "goods_put": "上架",
+            "is_rx": "OTC",
+            "goods_number":"999",
+            "goods_price": "8.50",
+            "quantity":"20"
+        },
+        {
+            "id":"2",
+            "goods_sku_id":"20160121890100",
+            "goods_name": "白三平 孟鲁司特钠片 10mg*5片",
+            "goods_cate": "日常家居",
+            "goods_put": "上架",
+            "is_rx": "非OTC",
+            "goods_number":"90",
+            "goods_price": "35.50",
+            "quantity":"10"
+        },
+        {
+            "id":"3",
+            "goods_sku_id":"商品SKU编号",
+            "goods_name": "商品名称",
+            "goods_cate": "商品分类",
+            "goods_put": "上架情况",
+            "is_rx": "是否处方药",
+            "goods_number":"库存数量",
+            "goods_price": "商品单价",
+            "quantity":""
+        },
+        {
+            "id":"4",
+            "goods_sku_id":"商品SKU编号",
+            "goods_name": "商品名称",
+            "goods_cate": "商品分类",
+            "goods_put": "上架情况",
+            "is_rx": "是否处方药",
+            "goods_number":"库存数量",
+            "goods_price": "商品单价",
+            "quantity":"购买数量"
+        }
+    ]
+}

@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <title>订单管理 -> 异常单管理</title>
+    <link rel="stylesheet" href="../dist/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../dist/lib/bootstrap/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../dist/lib/ace/css/ace.mixing.min.css" />
+    <link rel="stylesheet" href="../dist/lib/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../dist/lib/jqGrid/src/css/ui.jqgrid.css" />
+
+    <!-- frame-page.css 必须放在框架样式资源的后面 -->
+    <link rel="stylesheet" href="../dist/css/frame-page.css">
+</head>
+<body>
+
+
+<div class="cm-bread-crumbs">
+    <span class="dark">订单管理</span><span class="partition">&gt;</span>异常单管理
+</div>
+
+<!-- start page content -->
+<div class="page-content">
+
+	<!-- start box -->
+	<div id="searchInputPanel" class="row">
+		<div class="width-25 pull-left">
+			<dl class="width-50 pull-left" style="margin:0;">
+				<dt>七乐康单号</dt>
+				<dd>
+					<textarea id="orderNo" style="width:98%;" placeholder="请用回车分隔不同的订单号"></textarea>
+				</dd>
+			</dl>
+			<dl class="width-50 pull-right" style="margin:0;">
+				<dt>销售平台单号</dt>
+				<dd>
+					<textarea id="salesNo" style="width:98%;" placeholder="请用回车分隔不同的订单号"></textarea>
+				</dd>
+			</dl>
+		</div>
+
+		<div class="width-75 pull-right single-row">
+            <select id="orderTime">
+                <option value="-1" selected="selected">请选择时间点</option>
+                <option value="order_time">下单时间</option>
+                <option value="payment_time">支付时间</option>
+                <option value="cs_audit_at">客服审核时间</option>
+                <option value="delivery_limit_time">发货时限</option>
+                <option value="created_at">创建时间</option>
+                <option value="modified_at">修改时间</option>
+                <option value="modified_at">订单生存时间</option>
+            </select>
+
+			<span>
+				<input type="text" size="14" id="StartDate" value="" data-type="datetime">
+				至
+				<input type="text" size="14" id="EndDate" value="" data-type="datetime">
+			</span>
+
+            <select id="salePlatform">
+                <option>销售平台</option>
+            </select>
+
+			<input type="text" id="memberAccount" placeholder="会员账号" value="">
+
+            <select id="Locker">
+                <option value="-1" selected="selected">客服锁定人</option>
+            </select>
+
+            <input type="text" id="Receiver" placeholder="收货人" value="">
+
+            <input type="text" size="19" id="ReceiverPhone" placeholder="收货人手机" value="">
+
+            <input type="text" id="GoodsSku" placeholder="商品名称或商品SKU" value="">
+
+			<input type="button" class="btn btn-xs btn-primary" data-event="do-search" value="查询">
+			<input type="button" class="btn btn-xs btn-default" data-event="do-output" value="导出">
+		</div>
+
+		<div class="space-20"></div>
+	</div>
+	<!-- end box -->
+
+	<!-- start box -->
+	<div id="optionPanel" class="row">
+
+		<div class="space-4"></div>
+		<div class="cm-line"></div>
+		<div class="space-4"></div>
+
+        <input type="button" class="btn btn-sm btn-primary" value="刷新列表" data-event="do-refresh">
+		<input type="button" class="btn btn-sm btn-gray" disabled="disabled" data-event="do-lock" value="锁定">
+        <input type="button" class="btn btn-sm btn-gray" disabled="disabled" data-event="do-unlock" value="解锁">
+		<input type="button" class="btn btn-sm btn-gray" disabled="disabled" data-event="do-resend" value="重新下发">
+		<input type="button" class="btn btn-sm btn-gray" disabled="disabled" data-event="do-cancel" value="取消订单">
+
+		<div class="space-4"></div>
+		<div class="cm-line"></div>
+		<div class="space-4"></div>
+
+		<ul id="tabStatusFilter" class="cm-nav mt10px">
+		    <li data-status="20" class="item active">全部挂起单</li>
+		    <li data-status="21" class="item">疑似恶意单</li>
+		    <li data-status="22" class="item">无可用库存单</li>
+		    <li data-status="23" class="item">数据问题单</li>
+		    <li class="clear"></li>
+		</ul>
+
+		<div class="space-4"></div>
+
+		<table id="jqgrid"></table>
+		<div id="grid-pager"></div>
+	</div>
+	<!-- end box -->
+
+	<!-- start box -->
+	<div class="row mt20px" id="J-detail-cont-wrap" style="display: none;">
+        <div class="pro-detail-tab">
+            <ul id="J-detail-tab" class="cm-nav rel">
+                <li class="item active">基本信息</li>
+                <li class="item">商品信息</li>
+                <li class="item">收货信息</li>
+                <li class="item">财务信息</li>
+                <li class="item">发票信息</li>
+                <li class="item">出库信息</li>
+                <li class="item">操作日志</li>
+                <li class="item">退换货信息</li>
+                <li class="item">退换货日志</li>
+                <li class="item">用户购买记录</li>
+                <li class="clear"></li>
+            </ul>
+            <div id="J-detail-control-but" class="btn-wrap" style="display: none;">
+                <button type="button" class="cm-btn cm-btn-blue" id="J-pro-detail-edit">编辑</button>
+                <button type="button" class="cm-btn cm-btn-blue" id="J-pro-detail-cancel" style="display: none;">取消</button>
+                <button type="button" class="cm-btn cm-btn-gray ml5px" id="J-pro-detail-save" style="display: none;">保存</button>
+            </div>
+        </div>
+
+        <div id="J-detail-cont" class="mt10px">
+            <div id="J-base-msg-wrap" class="J-detail-cont-inner"></div>
+
+            <div class="J-detail-cont-inner" style="display: none;">
+                <div id="J-pro-list-wrap"></div>
+                <div id="J-pro-btn-wrap" class="pt10px pb10px" style="display: none;">
+                    <button type="button" class="cm-btn cm-btn-blue" id="J-pro-list-add">新增</button>
+                    <button type="button" class="cm-btn cm-btn-gray ml5px" id="J-pro-list-del">删除</button>
+                </div>
+            </div>
+
+            <div id="J-receiver-msg-wrap" class="J-detail-cont-inner" style="display: none;"></div>
+
+            <div id="J-finance-msg-wrap" class="J-detail-cont-inner" style="display: none;"></div>
+
+            <div class="J-detail-cont-inner" style="display: none;">
+                <div id="J-invoice-list-wrap"></div>
+                <div id="J-invoice-btn-wrap" class="pt10px pb10px" style="display: none;">
+                    <button type="button" class="cm-btn cm-btn-blue" id="J-invoice-list-add">新增</button>
+                    <button type="button" class="cm-btn cm-btn-gray ml5px" id="J-invoice-list-del">删除</button>
+                </div>
+            </div>
+
+            <div id="J-depot-msg-wrap" class="J-detail-cont-inner" style="display: none;"></div>
+
+            <!-- start tab7 -->
+            <div class="J-detail-cont-inner" style="display: none;">
+                <div id="J-operation-log-wrap" ></div>
+                <div id="J-pager-wrap-operation" class="cm-pager-wrap"></div>
+            </div>
+            <!-- end tab7 -->
+
+            <!-- start tab8 -->
+            <div class="J-detail-cont-inner" style="display: none;">
+                <div id="J-return-info-wrap" ></div>
+                <!-- <div id="J-pager-wrap-return-info" class="cm-pager-wrap"></div> -->
+            </div>
+            <!-- end tab8 -->
+
+            <!-- start tab9 -->
+            <div class="J-detail-cont-inner" style="display: none;">
+                <div id="J-return-log-wrap" ></div>
+                <div id="J-pager-wrap-return" class="cm-pager-wrap"></div>
+            </div>
+            <!-- end tab9 -->
+
+            <!-- start tab10 -->
+            <div class="J-detail-cont-inner" style="display: none;">
+                <div id="J-purchase-log-wrap" ></div>
+                <div id="J-pager-wrap-purchase" class="cm-pager-wrap"></div>
+            </div>
+            <!-- end tab10 -->
+
+        </div>
+    </div>
+    <!-- end box -->
+</div>
+<!-- end page content -->
+
+<script type="text/html" id="J-base-msg-tpl">
+    <table id="J-base-msg" class="cm-table">
+        <tr>
+            <td width="120" class="col-txt text-center">订单编号</td>
+            <td width="120"><%= order_id %></td>
+            <td width="120" class="col-txt text-center">销售平台单号</td>
+            <td width="120"><%= source_order %></td>
+            <td width="120" class="col-txt text-center">销售店铺</td>
+            <td width="120"><%= shop_name %></td>
+            <td width="120" class="col-txt text-center">订单当前状态</td>
+            <td width="120"><%= order_status %></td>
+        </tr>
+        <tr>
+            <td width="120" class="col-txt text-center">下单时间</td>
+            <td width="120"><%= order_time %></td>
+            <td width="120" class="col-txt text-center">支付方式</td>
+            <td width="120"><%= payment_type %></td>
+            <td width="120" class="col-txt text-center">买家留言</td>
+            <td width="120">
+                <span class="status-simple"><%= user_remark %></span>
+                <span class="status-edit">
+                    <input type="text" name="user_remark" value="<%= user_remark %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">付款方式</td>
+            <td width="120"><%= payment_method %></td>
+        </tr>
+        <tr>
+            <td width="120" class="col-txt text-center">下单用户账号</td>
+            <td width="120"><%= user_account %></td>
+            <td width="120" class="col-txt text-center">用户昵称</td>
+            <td width="120"><%= username %></td>
+            <td width="120" class="col-txt text-center">卖家备注</td>
+            <td width="120">
+                <span class="status-simple"><%= vender_remark %></span>
+                <span class="status-edit">
+                    <input type="text" name="vender_remark" value="<%= vender_remark %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">微信号</td>
+            <td width="120"><%= wx_nickname %></td>
+        </tr>
+        <tr>
+            <td width="120" class="col-txt text-center">订单平台</td>
+            <td width="120"><%= plat_name %></td>
+            <td width="120" class="col-txt text-center">订单来源</td>
+            <td width="120"><%= order_entrance %></td>
+            <td width="120" class="col-txt text-center">支付金额</td>
+            <td width="120"><%= paid_amount %></td>
+            <!--<td width="120" class="col-txt text-center">发货信息？</td>
+            <td width="120"><%= 1 %></td>-->
+            <td width="120" class="col-txt text-center">订单类型</td>
+            <td width="120"><%= order_type %></td>
+        </tr>
+        <tr>
+            <td width="120" class="col-txt text-center">订单完成时间</td>
+            <td width="120"><%= order_finish_time %></td>
+            <td width="120" class="col-txt text-center">物流公司</td>
+            <td width="120"><%= logist_company %></td>
+            <td width="120" class="col-txt text-center">运单号</td>
+            <td width="120"><%= waybill_num %></td>
+            <td width="120" class="col-txt text-center"></td>
+            <td width="120"></td>
+        </tr>
+    </table>
+</script>
+
+<!--商品信息列表模版-->
+<script type="text/html" id="J-pro-list-tpl">
+    <% if (list.length > 0) { %>
+    <table class="cm-table">
+        <tr>
+            <th width="20" class="status-check-box-wrap"><input type="checkbox" class="J-check-all"></th>
+            <th>序号</th>
+            <th>商品SKU编号</th>
+            <th>商品名称</th>
+            <th>商品规格</th>
+            <th>商品备注</th>
+            <th>库存</th>
+            <th>是否处方药</th>
+            <th>实付金额</th>
+            <th>商品数量</th>
+            <th>折扣</th>
+            <th>合计价格</th>
+            <th>实际发货批号</th>
+            <th>生产日期</th>
+            <th>有效期</th>
+            <th>实发数量</th>
+        </tr>
+        <tbody id="J-pro-list-body">
+        <% $.each(list, function (i, item) { %>
+        <tr class="J-default">
+            <td class="status-check-box-wrap">
+                <input type="checkbox" value="<%= item.goods_sku %>">
+                <input type="hidden" name="goods_sku" value="<%= item.goods_sku %>">
+                <input type="hidden" name="being_deleted_goods" value="<%= item.being_deleted_goods?item.being_deleted_goods:0 %>">
+            </td>
+            <td><%= (i + 1) %></td>
+            <td><%= item.goods_sku %></td>
+            <td><%= item.goods_name %></td>
+            <td><%= item.goods_spec %></td>
+            <td>
+                <span class="status-simple"><%= item.goods_remark %></span>
+                <span class="status-edit">
+                    <input type="text" name="good_remark" placeholder="商品备注" value="<%= item.goods_remark %>">
+                </span>
+            </td>
+            <td><%= item.warehouse_status %></td>
+            <td><%= item.is_rx %></td>
+            <td><%= item.total_money %></td>
+            <td>
+                <span class="status-simple"><%= item.order_quantity===''?1:item.order_quantity %></span>
+                <span class="status-edit">
+                    <input type="text" name="order_quantity" placeholder="商品数量" value="<%= item.order_quantity===''?1:item.order_quantity %>" style="width: 80px;">
+                </span>
+            </td>
+            <td><%= item.discount===''?10:item.discount %></td>
+            <td><%= (item.total_money * item.order_quantity * item.discount * 0.1).toFixed(2) %></td>
+            <td><%= item.shipment_batch_num %></td>
+            <td><%= item.production_date %></td>
+            <td><%= item.expiry_date %></td>
+            <td><%= item.send_num %></td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <% } else { %>
+    <div class="cm-no-data">暂无任何数据</div>
+    <% } %>
+</script>
+
+<!--新增商品模版-->
+<script type="text/html" id="J-pro-list-opt-tpl">
+    <tr>
+        <td class="status-check-box-wrap">
+            <input type="checkbox" value="<%= item.sku_id %>">
+            <input type="hidden" name="goods_sku" value="">
+            <input type="hidden" name="being_deleted_goods" value="">
+        </td>
+        <td><%= (index + 1) %></td>
+        <td><%= item.sku_id %></td>
+        <td><%= item.goods_name %></td>
+        <td><%= item.goods_spec %></td>
+        <td>
+            <span class="status-simple"><%= item.good_remark %></span>
+        <span class="status-edit">
+        <input type="text" name="good_remark" value="<%= item.good_remark %>">
+        </span>
+        </td>
+        <td><%= item.warehouse_status %></td>
+        <td><%= item.is_rx %></td>
+        <td><%= item.total_money %></td>
+        <td>
+            <span class="status-simple"><%= item.quantity %></span>
+        <span class="status-edit">
+        <input type="text" name="quantity" value="<%= item.quantity %>" style="width: 80px;">
+        </span>
+        </td>
+        <td><%= item.discount %></td>
+        <td><%= (item.actual_price * item.quantity) %></td>
+        <td><%= item.shipment_batch_num %></td>
+        <td><%= item.production_date %></td>
+        <td><%= item.expiry_date %></td>
+        <td><%= item.send_num %></td>
+    </tr>
+</script>
+
+<!-- 添加商品弹窗模版 -->
+<script type="text/html" id="J-pro-add-pop-tpl">
+    <div class="pro-add-pop">
+        <div>
+            <input type="text" placeholder="商品名称或SKU" id="J-pro-add-pop-btn-key-word">
+            <button type="button" class="cm-btn cm-btn-blue" id="J-pro-add-pop-btn-search">搜索</button>
+        </div>
+
+        <div class="search-list-wrap">
+            <div class="mt10px" id="J-pro-add-pop-search-list-wrap">
+                <div class="before-search">请先查找商品</div>
+            </div>
+            <div id="J-pro-add-pop-pager-wrap" class="cm-pager-wrap"></div>
+        </div>
+
+        <div class="btn-wrap">
+            <button type="button" id="J-pro-add-pop-btn-add" class="cm-btn cm-btn-blue">确定添加</button>
+            <button type="button" id="J-pro-add-pop-btn-cancel" class="cm-btn cm-btn-gray ml20px">取消</button>
+        </div>
+    </div>
+</script>
+
+<!--商品搜索结果模版-->
+<script type="text/html" id="J-pro-search-list-tpl">
+    <% if (data.length > 0) { %>
+    <table class="cm-table">
+        <thead>
+        <tr>
+            <th></th>
+            <th>商品SKU编号</th>
+            <th>商品名称</th>
+            <th>所属分类</th>
+            <th>商品单价</th>
+            <th>上架状态</th>
+            <th>是否处方药</th>
+            <th>库存数量</th>
+            <th>购买数量</th>
+        </tr>
+        </thead>
+        <tbody id="J-pro-search-list">
+        <% $.each(data, function (i, item) { %>
+        <tr>
+            <td><input type="checkbox" value="<%= (i + 1) %>"></td>
+            <td><%= item.goods_sku_id %></td>
+            <td><%= item.goods_name %></td>
+            <td><%= item.goods_cate %></td>
+            <td><%= item.goods_price %></td>
+            <td><%= item.goods_put %></td>
+            <td><%= item.is_rx %></td>
+            <td><%= item.goods_number %></td>
+            <td><input type="number" name="quantity" value="<%= isNaN(item.quantity)?1:item.quantity %>" style="width: 80px;"></td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <% } else { %>
+    <div class="cm-no-data">暂无任何数据</div>
+    <% } %>
+</script>
+
+<!--收货信息模版-->
+<script type="text/html" id="J-receiver-msg-tpl">
+    <table id="J-receiver-msg" class="cm-table">
+        <tr>
+            <td width="120" class="col-txt text-center">收货人姓名</td>
+            <td width="120">
+                <span class="status-simple"><%= consignee_name %></span>
+                <span class="status-edit">
+                    <input type="text" name="consignee_name" value="<%= consignee_name %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">电话号码</td>
+            <td width="120">
+                <span class="status-simple"><%= consignee_mobile %></span>
+                <span class="status-edit">
+                    <input type="text" name="consignee_mobile" value="<%= consignee_mobile %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">邮编</td>
+            <td width="120">
+                <span class="status-simple"><%= zip_code %></span>
+                <span class="status-edit">
+                    <input type="text" name="zip_code" value="<%= zip_code %>">
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td class="col-txt text-center">收货地址</td>
+            <td colspan="5">
+                <span class="status-simple">
+                    <font><%= province_name %></font>
+                    <font><%= city_name %></font>
+                    <font><%= district_name %></font>
+                    <%= address %>
+                </span>
+                <span class="status-edit input-four-in-cell" data-loaded="1">
+                    <select name="province" id="J-receiver-msg-province">
+                        <option><%= province_name?province_name:'请选择省份' %></option>
+                    </select>
+
+                    <select name="city" id="J-receiver-msg-city">
+                        <option><%= city_name?city_name:'请选择城市' %></option>
+                    </select>
+
+                    <select name="district" id="J-receiver-msg-district">
+                        <option><%= district_name?district_name:'请选择区县' %></option>
+                    </select>
+
+                    <input type="text" name="address" value="<%= address %>">
+                </span>
+            </td>
+        </tr>
+    </table>
+</script>
+
+<!--财务信息模版-->
+<script type="text/html" id="J-finance-msg-tpl">
+    <table id="J-finance-msg" class="cm-table">
+        <tr>
+            <td width="120" class="col-txt text-center">订单商品总金额</td>
+            <td width="120"><%= goods_amount %></td>
+            <td width="120" class="col-txt text-center">订单应付总金额</td>
+            <td width="120"><%= order_total %></td>
+            <td width="120" class="col-txt text-center">实际已支付金额</td>
+            <td width="120"><%= paid_amount %></td>
+            <td width="120" class="col-txt text-center">剩余应支付金额</td>
+            <td width="120">
+                <span class="status-simple"><%= unpaid_amount %></span>
+                <span class="status-edit">
+                    <input type="text" name="unpaid_amount" value="<%= unpaid_amount %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">客服优惠金额</td>
+            <td width="120">
+                <span class="status-simple"><%= cs_coupon %></span>
+                <span class="status-edit">
+                    <input type="text" name="cs_coupon" value="<%= cs_coupon %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">系统计算运费</td>
+            <td width="120"><%= sys_count_shipment %></td>
+        </tr>
+        <tr>
+            <td width="120" class="col-txt text-center">订单积分</td>
+            <td width="120">
+                <span class="status-simple"><%= points %></span>
+                <span class="status-edit">
+                    <input type="text" name="points" value="<%= points %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">现金券</td>
+            <td width="120">
+                <span class="status-simple"><%= cash_coupon %></span>
+                <span class="status-edit">
+                    <input type="text" name="cash_coupon" value="<%= cash_coupon %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">礼品券</td>
+            <td width="120">
+                <span class="status-simple"><%= gift_coupon %></span>
+                <span class="status-edit">
+                    <input type="text" name="gift_coupon" value="<%= gift_coupon %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">本单使用积分</td>
+            <td width="120">
+                <span class="status-simple"><%= order_point %></span>
+                <span class="status-edit">
+                    <input type="text" name="order_point" value="<%= order_point %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center">实际运费</td>
+            <td width="120">
+                <span class="status-simple"><%= delivery_amount %></span>
+                <span class="status-edit">
+                    <input type="text" name="delivery_amount" value="<%= delivery_amount %>">
+                </span>
+            </td>
+            <td width="120" class="col-txt text-center"></td>
+            <td width="120"></td>
+        </tr>
+    </table>
+</script>
+
+<!--发票信息列表模版-->
+<script type="text/html" id="J-invoice-list-tpl">
+    <% if (list.length > 0) { %>
+    <table class="cm-table">
+        <tr>
+            <th class="status-check-box-wrap" width="20"><input type="checkbox" class="J-check-all"></th>
+            <th>序号</th>
+            <th>发票类型</th>
+            <th>发票抬头</th>
+            <th>发票内容</th>
+            <th>发票金额</th>
+            <th>发票状态</th>
+            <th>实发发票内容</th>
+            <th>实发发票金额</th>
+            <th>发票号</th>
+            <th>发票开具日期</th>
+        </tr>
+        <tbody id="J-invoice-list-body">
+        <% $.each(list, function (i, item) { %>
+        <tr>
+            <td class="status-check-box-wrap">
+                <input type="checkbox" value="<%= item.id %>">
+                <input type="hidden" name="invoice_id" value="<%= item.invoice_id %>">
+                <input type="hidden" name="being_deleted_invoice" value="0">
+            </td>
+            <td><%= (i + 1) %></td>
+            <td>
+                <span class="status-simple"><%= item.invoice_type %></span>
+                <span class="status-edit">
+                    <select name="invoice_type">
+                        <option value="1" <% if (item.invoice_type == '1') { %>selected<% } %>>平台下单</option>
+                        <option value="2" <% if (item.invoice_type == '2') { %>selected<% } %>>客服建单</option>
+                    </select>
+                </span>
+            </td>
+            <td>
+                <span class="status-simple"><%= item.invoice_title %></span>
+                <span class="status-edit">
+                    <input type="text" name="invoice_title" value="<%= item.invoice_title %>">
+                </span>
+            </td>
+            <td>
+                <% if (item.invoice_content.length > 0 && typeof(item.invoice_content) == 'object') { %>
+                <% $.each(item.invoice_content, function(i2, v){  %>
+                <p>
+                    <span><%= v.goods %></span>
+                    <span><%= v.quantity %></span>
+                    <span><%= v.unit %></span>
+                    <span>￥<%= v.price %></span>
+                </p>
+                <% }); %>
+                <% } %>
+            </td>
+            <td>
+                <span class="status-simple"><%= item.invoice_money===''?1:item.invoice_money %></span>
+                <span class="status-edit">
+                    <input type="text" name="invoice_money" value="<%= item.invoice_money===''?1:item.invoice_money %>">
+                </span>
+            </td>
+            <td><%= item.status %></td>
+            <td><%= item.actual_invoice_content %></td>
+            <td><%= item.actual_invoice_money %></td>
+            <td><%= item.invoice_id %></td>
+            <td><%= item.invoice_date %></td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <% } else { %>
+    <div class="cm-no-data">暂无任何数据</div>
+    <% } %>
+</script>
+
+<!--新增发票信息模版-->
+<script type="text/html" id="J-invoice-list-opt-tpl">
+    <tr>
+        <td class="status-check-box-wrap">
+            <input type="checkbox" value="">
+            <input type="hidden" name="invoice_id" value="">
+            <input type="hidden" name="being_deleted_invoice" value="0">
+        </td>
+        <td><%= (index + 1) %></td>
+        <td>
+            <span class="status-simple"></span>
+            <span class="status-edit">
+                <select name="invoice_type">
+                    <option value="1">平台下单</option>
+                    <option value="2">客服建单</option>
+                </select>
+            </span>
+        </td>
+        <td>
+            <span class="status-simple"></span>
+            <span class="status-edit">
+                <input type="text" name="invoice_title" value="">
+            </span>
+        </td>
+        <td>
+            <span class="status-simple"></span>
+            <span class="status-edit">
+                <input type="text" name="invoice_content" value="">
+            </span>
+        </td>
+        <td>
+            <span class="status-simple"></span>
+            <span class="status-edit">
+                <input type="text" name="invoice_money" value="">
+            </span>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+</script>
+
+<!--出库信息模版-->
+<script type="text/html" id="J-depot-msg-tpl">
+    <table id="J-depot-msg" class="cm-table">
+        <tr>
+            <td width="120" class="col-txt text-center">打单员</td>
+            <td width="120"><%= stockout_user %></td>
+            <td width="120" class="col-txt text-center">打单时间</td>
+            <td width="120"><%= stockout_time %></td>
+            <td width="120" class="col-txt text-center">实发货件数</td>
+            <td width="120"><%= send_num %></td>
+            <td width="120" class="col-txt text-center">实际出库物流公司</td>
+            <td width="120"><%= logist_company %></td>
+            <td width="120" class="col-txt text-center">发货交接人</td>
+            <td width="120"><%= stock_associate_user %></td>
+        </tr>
+        <tr>
+            <td width="120" class="col-txt text-center">到货时间</td>
+            <td width="120"><%= arrive_time %></td>
+            <td width="120" class="col-txt text-center">内复核扫描时间</td>
+            <td width="120"><%= review_package_time %></td>
+            <td width="120" class="col-txt text-center">内复核扫描员</td>
+            <td width="120"><%= review_package_user %></td>
+            <td width="120" class="col-txt text-center">实际物流单号</td>
+            <td width="120"><%= actual_waybill_num %></td>
+            <td width="120" class="col-txt text-center">发货交接时间</td>
+            <td width="120"><%= out_stock_date %></td>
+        </tr>
+    </table>
+</script>
+
+<!--操作日志模版-->
+<script type="text/html" id="J-operation-log-tpl">
+    <% if (list.length > 0) { %>
+    <table class="cm-table">
+        <tr>
+            <th>操作人</th>
+            <th>时间</th>
+            <th>操作内容</th>
+            <th>订单状态</th>
+            <th>订单标记</th>
+            <th>备注</th>
+        </tr>
+        <tbody id="J-operation-log">
+        <% $.each(list, function (i, item) { %>
+        <tr>
+            <td><%= item.operationer %></td>
+            <td><%= item.time %></td>
+            <td><%= item.content %></td>
+            <td><%= item.status %></td>
+            <td><%= item.mark %></td>
+            <td><%= item.remark %></td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <% } else { %>
+    <div class="cm-no-data">暂无任何数据</div>
+    <% } %>
+</script>
+
+<!--分页模版-->
+<script type="text/html" id="J-pager-tpl">
+    <span class="ui-pager-txt">
+        共 <em><%= total %></em> 条记录，每页 <em><%= ps %></em> 条
+    </span>
+    <div class="ui-pager">
+        <% $.each(els, function (i, item) { %>
+        <a class="J-page-to <%= item.cls %>" data-pg="<%= item.pg %>"><%= item.name %></a>
+        <% }) %>
+    </div>
+</script>
+
+<!--退换货信息模版-->
+<script type="text/html" id="J-return-info-tpl">
+    <% if (list !== undefined && list.length > 0) { %>
+    <table class="cm-table">
+        <thead>
+        <tr>
+            <th>退入商品名称</th>
+            <th>退入商品代码</th>
+            <th>退入商品批号</th>
+            <th>退入数量</th>
+            <th>标准金额</th>
+            <th>实际金额</th>
+            <th>退款状态</th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% $.each(list.return, function (i, item) { %>
+        <tr>
+            <td><%= item.return_goods_name %></td>
+            <td><%= item.return_goods_code %></td>
+            <td><%= item.return_goods_no %></td>
+            <td><%= item.return_number %></td>
+            <td><%= item.return_standard_amount %></td>
+            <td><%= item.return_real_amount %></td>
+            <td><%= item.return_refund_status %></td>
+            <td><%= item.return_remark %></td>
+        </tr>
+        <% }); %>
+        </tbody>
+        <thead>
+        <tr>
+            <th>换出商品名称</th>
+            <th>换出商品代码</th>
+            <th>换出商品批号</th>
+            <th>换出数量</th>
+            <th>标准金额</th>
+            <th>实际金额</th>
+            <th></th>
+            <th>备注</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% $.each(list.deal, function (i, item) { %>
+        <tr>
+            <td><%= item.deal_goods_name %></td>
+            <td><%= item.deal_goods_code %></td>
+            <td><%= item.deal_goods_no %></td>
+            <td><%= item.deal_number %></td>
+            <td><%= item.deal_standard_amount %></td>
+            <td><%= item.deal_real_amount %></td>
+            <td>&nbsp;</td>
+            <td><%= item.deal_remark %></td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <% } else { %>
+    <div class="cm-no-data">暂无任何数据</div>
+    <% } %>
+</script>
+
+<!--退换货日志模版-->
+<script type="text/html" id="J-return-log-tpl">
+    <% if (list.length > 0) { %>
+    <table class="cm-table">
+        <tr>
+            <th>操作人</th>
+            <th>操作时间</th>
+            <th>操作信息</th>
+        </tr>
+        <tbody id="J-return-log">
+        <% $.each(list, function (i, item) { %>
+        <tr>
+            <td><%= item.operationer %></td>
+            <td><%= item.time %></td>
+            <td><%= item.info %></td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <% } else { %>
+    <div class="cm-no-data">暂无任何数据</div>
+    <% } %>
+</script>
+
+<!--用户购买记录模版-->
+<script type="text/html" id="J-purchase-log-tpl">
+    <% if (list.length > 0) { %>
+    <table class="cm-table">
+        <tr>
+            <th>销售平台单号</th>
+            <th>订单编号</th>
+            <th>下单时间</th>
+            <th>订单金额</th>
+            <th>订单状态</th>
+            <th>备注</th>
+        </tr>
+        <tbody id="J-purchase-log">
+        <% $.each(list, function (i, item) { %>
+        <tr>
+            <td><%= item.platform_order_no %></td>
+            <td><%= item.order_code %></td>
+            <td><%= item.place_order_time %></td>
+            <td><%= item.order_amount %></td>
+            <td><%= item.order_status %></td>
+            <td><%= item.remark %></td>
+        </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    <% } else { %>
+    <div class="cm-no-data">暂无任何数据</div>
+    <% } %>
+</script>
+
+</body>
+</html>
+
+<script src="../dist/lib/jquery/js/jquery.min.js"></script>
+<!--<script src="../dist/lib/bootstrap/js/bootstrap.min.js"></script>-->
+<script src="../dist/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+<script src="../dist/lib/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<script src="../dist/lib/jqGrid/src/i18n/grid.locale-cn.js"></script>
+<script src="../dist/lib/jqGrid/src/jquery.jqGrid.min.js"></script>
+
+<script src="../src/js/config.js"></script>
+<script src="../dist/lib/H/js/H.min.js"></script>
+<script src="../dist/js/biz/abnormal-orders.min.js"></script>

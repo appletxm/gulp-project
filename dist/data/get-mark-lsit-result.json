@@ -1,0 +1,27 @@
+{
+	"code": 200,
+	"msg": "success",
+	"data": [
+		{
+			"tag_name": "加急",
+			"tag_code": "ORDER_URGENT",
+			"remark": "订单加急",
+			"id": 2,
+			"belong_to": 0
+		},
+		{
+			"tag_name": "暂停",
+			"tag_code": "ORDER_PAUSE",
+			"remark": "订单暂停",
+			"id": 4,
+			"belong_to": 0
+		},
+		{
+			"tag_name": "取消暂停",
+			"tag_code": "ORDER_PAUSE_CANCEL",
+			"remark": "订单取消暂停",
+			"id": 5,
+			"belong_to": 0
+		}
+	]
+}

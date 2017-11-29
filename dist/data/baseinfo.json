@@ -1,0 +1,88 @@
+{
+	"basic_info": {
+		"order_id": "D1511232411123",
+		"source_orders": "jkjljl",
+		"shop_id": "987987",
+		"order_status": "jlkh"
+	},
+	"business_info": {
+		"0": {
+			"id": "1",
+			"sort": "序号",
+			"item_picture": "商品图片",
+			"item_sku": "商品SKU编号",
+			"item_name": "商品名称",
+			"item_specifications": "商品规格",
+			"item_remark": "商品备注",
+			"item_stock": "库存",
+			"is_prescription": "是否处方药",
+			"actually_paid": "实付金额",
+			"item_number": "商品数量",
+			"discount": "折扣",
+			"total_price": "合计价格",
+			"delivery_lot": "实际发货批号",
+			"production_date": "生产日期",
+			"validity": "有效期",
+			"actually_send_number": "实发数量"
+		},
+		"1": {
+			"id": "10",
+			"sort": "序8号",
+			"item_picture": "商品8图片",
+			"item_sku": "商品8SKU编号",
+			"item_name": "商品8名称",
+			"item_specifications": "商8品规格",
+			"item_remark": "商品8备注",
+			"item_stock": "库8存",
+			"is_prescription": "是否处8方药",
+			"actually_paid": "实付8金额",
+			"item_number": "商品8数量",
+			"discount": "折8扣",
+			"total_price": "合计8价格",
+			"delivery_lot": "实际888发货批号",
+			"production_date": "生88产日期",
+			"validity": "有效88期",
+			"actually_send_number": "8888"
+		}
+	},
+	"delivery_info": {
+		"consignee": "Rainyin",
+		"phone": "13080898899",
+		"address": "天朝大地",
+		"zipcode": "510000"
+	},
+	"financial_info": {
+		"total_amount": "234",
+		"paid_amount": "388"
+	},
+	"invoice_info": {
+		"0": {
+			"id": "188",
+			"sort": "2",
+			"invoice_type": "xxx",
+			"invoice_letterhead": "xxx",
+			"invoice_content": "xxx",
+			"invoice_amount": "7777",
+			"invoice_status": "on",
+			"real_content": "xxx",
+			"real_amount": "100"
+		},
+		"1": {
+			"id": "108",
+			"sort": "7",
+			"invoice_type": "kug",
+			"invoice_letterhead": "xxkuggx",
+			"invoice_content": "xxhkjhx",
+			"invoice_amount": "7777",
+			"invoice_status": "jl8g",
+			"real_content": "897",
+			"real_amount": "200"
+		}
+	},
+	"stock_info": {
+		"printer": "xxx",
+		"print_time": "2018.12.12 11:22",
+		"real_shipment_number": "28",
+		"actual_shipment_company": "中通"
+	}
+}

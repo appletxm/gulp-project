@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="renderer" content="webkit" />
+    <title>OFC</title>
+    <link rel="stylesheet" href="dist/css/common.css" />
+</head>
+<body>
+
+<div id="J-header" class="header">
+    <h1 class="title">七乐康运营管理平台</h1>
+    <div class="fr pr15px">
+        <span class="ml20px">您好！欢迎您超级管理员admin</span>
+        <span class="ml20px"><a href="#" class="cm-link-white"><i class="icon-font icon-pwd">&#xe600</i>修改密码</a></span>
+        <span class="ml20px"><a href="#" class="cm-link-white"><i class="icon-font icon-refresh">&#xe602</i>刷新系统</a></span>
+        <span class="ml20px"><a href="#" class="cm-link-white"><i class="icon-font icon-exit">&#xe605</i>退出系统</a></span>
+    </div>
+</div>
+
+<div id="J-sidebar" class="sidebar"></div>
+<div id="J-submenu-wrap" class="submenu-wrap"></div>
+
+<div id="J-container" class="container">
+    <iframe class="iframe" name="mainFrame" frameborder="0" scrolling="auto" src="demo.html"></iframe>
+</div>
+
+<script id="J-menu-tpl" type="text/html">
+    <ul class="inner">
+        <% $.each(items, function (i, item) { %>
+        <li class="item <%= item.submenu.length > 0 ? 'J-has-submenu' : '' %>">
+
+            <% if (item.href != '') { %>
+            <a href="<%= item.href %>" target="mainFrame" class="fix-box"><%= item.name %></a>
+            <% } else { %>
+            <span class="fix-box"><%= item.name %></span>
+            <% } %>
+
+            <% if (item.submenu.length > 0) { %>
+            <ul class="J-submenu submenu">
+                <% $.each(item.submenu, function (j, subListItem) { %>
+                <li class="item">
+
+                    <div class="inner <%= subListItem.submenu.length > 0 ? 'can-open J-can-open' : '' %>">
+                        <% if (subListItem.href != '') { %>
+                        <a href="<%= subListItem.href %>" target="mainFrame"><%= subListItem.name %></a>
+                        <% } else { %>
+                        <span><%= subListItem.name %></span>
+                        <% } %>
+                        <i class="icon-font icon-close">&#xe603</i>
+                        <i class="icon-font icon-open">&#xe604</i>
+                    </div>
+
+                    <% if (subListItem.submenu.length > 0) { %>
+                    <div class="lastmenu-wrap">
+                        <ul class="lastmenu">
+                            <% $.each(subListItem.submenu, function (k, lastListItem) { %>
+                            <li class="item">
+                                <a href="<%= lastListItem.href %>" target="mainFrame" class="cm-link-blue"><%= lastListItem.name %></a>
+                            </li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                    <% } %>
+                </li>
+                <% }); %>
+            </ul>
+            <% } %>
+        </li>
+        <% }); %>
+    </ul>
+</script>
+
+
+<!-- start basic scripts -->
+<script src="dist/lib/jquery/js/jquery.min.js"></script>
+<script src="dist/lib/H/js/H.min.js"></script>
+<script src="dist/lib/iscroll/iscroll.min.js"></script>
+<!-- end basic scripts -->
+
+<script src="src/js/index.js"></script>
+</body>
+</html>

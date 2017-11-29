@@ -1,0 +1,19 @@
+{
+	"code": "200",
+	"msg": "Success",
+	"records": 3,
+	"total": 2,
+	"page": 1,
+	"rows":[
+		{
+			"operationer": "捉鱼一号",
+			"time": "2016.10.10 12:28",
+			"info": "入库"
+		},
+		{
+			"operationer": "元某人",
+			"time": "1900.01.01 02:39",
+			"info": "了如指掌"
+		}		
+	]
+}

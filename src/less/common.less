@@ -1,0 +1,185 @@
+@import (reference) "tools/public";
+@import "tools/cssReset";
+@import (inline) "tools/iconfont.css";
+
+a:link, a:visited, a:hover, a:active{
+    text-decoration: none;
+}
+
+.cm-link-white{
+    color: #ffffff;
+    &:hover{
+        color: #ff6100;
+    }
+}
+.cm-link-blue{
+    color: @baseBlue;
+    &:hover{
+        color: #ff6100;
+    }
+}
+
+html, body{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.clear{
+    clear: both;
+}
+
+.header{
+    width: 100%;
+    height: 57px;
+    line-height: 57px;
+    border-bottom: 1px solid #1e6fb0;
+    background-color: @baseBlue;
+    color: #ffffff;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    .title{
+        float: left;
+        font-size: 24px;
+        padding: 0 0 0 15px;
+        line-height: 57px;
+    }
+    .icon-font{
+        position: relative;
+    }
+    .icon-pwd{
+        top: -1px;
+    }
+    .icon-exit{
+        top: 1px;
+    }
+}
+.sidebar{
+    width: 140px;
+    background-color: @baseBlue;
+    position: absolute;
+    top: 58px;
+    left: 0;
+    .item{
+        font-size: 14px;
+        color: #ffffff;
+        height: 50px;
+        border-bottom: 1px solid #1e6fb0;
+        .fix-box{
+            display: block;
+            padding: 0 15px;
+            .text-single-line-ellipsis(50px, 50px);
+        }
+        a{
+            display: block;
+            color: #ffffff;
+            &:hover{
+                color: #ffffff;
+            }
+        }
+    }
+    .active{
+        background-color: #eaf7ff;
+        color: @baseBlue;
+        a{
+            color: @baseBlue;
+            &:hover{
+                color: @baseBlue;
+            }
+        }
+    }
+    .submenu{
+        display: none;
+    }
+}
+.submenu-wrap{
+    display: none;
+    position: absolute;
+    top: 58px;
+    left: 140px;
+    width: 185px;
+    border-right: 5px solid #d0dde5;
+    background-color: #eaf7ff;
+    .item{
+        .inner{
+            height: 30px;
+            font-size: 14px;
+            padding: 10px;
+            border-bottom: 1px solid #cfdce4;
+            a, .no-link{
+                display: block;
+                border-radius: 3px;
+                padding: 0 10px;
+                color: #333333;
+                .text-single-line-ellipsis(30px, 30px);
+
+            }
+            a:hover{
+                background-color: #cfddea;
+                color: @baseBlue;
+            }
+            .icon-font{
+                display: none;
+                position: absolute;
+                top: 15px;
+                right: 10px;
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                text-align: center;
+            }
+        }
+        .can-open{
+            position: relative;
+            padding-right: 20px;
+            a{
+                display: inline;
+                &:hover{
+                    background-color: transparent;
+                }
+            }
+            .icon-close{
+                display: block;
+            }
+            .icon-open{
+                display: none;
+            }
+        }
+        .active{
+            .icon-close{
+                display: none;
+            }
+            .icon-open{
+                display: block;
+            }
+        }
+    }
+    .lastmenu-wrap{
+        padding: 5px;
+        border-bottom: 1px solid #cfdce4;
+        display: none;
+        .lastmenu{
+            background-color: #fdffff;
+            overflow: hidden;
+        }
+        .item{
+            height: 35px;
+            border-top: 1px dashed #cfdce4;
+            margin-top: -1px;
+            a{
+                display: block;
+                padding: 0 25px;
+                .text-single-line-ellipsis(35px, 35px);
+            }
+        }
+    }
+}
+.container{
+    margin-top: 58px;
+    margin-left: 140px;
+    background-color: #ffffff;
+    .iframe{
+        width: 100%;
+        height: 100%;
+    }
+}
